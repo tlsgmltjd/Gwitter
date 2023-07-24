@@ -5,7 +5,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
-import { authService, firebaseInstance } from "../firebase";
+import { authService } from "../firebase";
 import React, { useState } from "react";
 
 export default function Auth() {
@@ -61,9 +61,7 @@ export default function Auth() {
 
     if (!provider) return;
 
-    const data = await signInWithPopup(authService, provider);
-
-    console.log(data);
+    await signInWithPopup(authService, provider);
   };
 
   return (
