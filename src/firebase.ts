@@ -2,13 +2,13 @@ import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA46xKeedkfGbg1ObmGWmHh66IYsyG40uY",
-  authDomain: "gwitter-38f80.firebaseapp.com",
-  projectId: "gwitter-38f80",
-  storageBucket: "gwitter-38f80.appspot.com",
-  messagingSenderId: "1043029126002",
-  appId: "1:1043029126002:web:527d617debc8e4a0f90beb",
-  measurementId: "G-H9W9L7VH39",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
