@@ -2,8 +2,10 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
-import { authService } from "../firebase";
+import { authService, firebaseInstance } from "../firebase";
 import React, { useState } from "react";
 
 export default function Auth() {
@@ -46,6 +48,24 @@ export default function Auth() {
     setNewAccount((pre) => !pre);
   };
 
+  const onSocialClick = async (e: React.FormEvent<HTMLButtonElement>) => {
+    const {
+      currentTarget: { name },
+    } = e;
+
+    let provider;
+
+    if (name === "google") {
+      provider = new GoogleAuthProvider();
+    }
+
+    if (!provider) return;
+
+    const data = await signInWithPopup(authService, provider);
+
+    console.log(data);
+  };
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -72,7 +92,9 @@ export default function Auth() {
         {newAccount ? "로그인 할래요" : "새로 가입 할래요"}
       </button>
       <div>
-        <button>Continue with Google</button>
+        <button onClick={onSocialClick} name="google">
+          구글 계정으로 로그인 할래요
+        </button>
       </div>
     </div>
   );
