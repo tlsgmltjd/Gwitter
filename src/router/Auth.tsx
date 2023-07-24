@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,6 +10,7 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState("");
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { name, value }: { name: string; value: string } = e.currentTarget;
@@ -35,9 +37,13 @@ export default function Auth() {
       }
 
       console.log(data);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      setError(error.message);
     }
+  };
+
+  const toggleAccount = () => {
+    setNewAccount((pre) => !pre);
   };
 
   return (
@@ -59,8 +65,12 @@ export default function Auth() {
           onChange={onChange}
           required
         />
-        <button>{newAccount ? "Create Account" : "Log In"}</button>
+        <button>{newAccount ? "가입하기" : "로그인하기"}</button>
+        {error}
       </form>
+      <button onClick={toggleAccount}>
+        {newAccount ? "로그인 할래요" : "새로 가입 할래요"}
+      </button>
       <div>
         <button>Continue with Google</button>
       </div>
