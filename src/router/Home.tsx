@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../firebase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, onSnapshot } from "firebase/firestore";
+import { User } from "firebase/auth";
 
 type SnapshotData = { gweet?: string; createAt?: number; id: string };
 
-export default function Home() {
+export default function Home({ userObj }: { userObj: User | null }) {
   const [gweet, setGweet] = useState("");
   const [gweets, setGweets] = useState<SnapshotData[]>([]);
 
-  const getGweets = async () => {
-    const querySnapshot = await getDocs(collection(dbService, "gweets"));
-
-    querySnapshot.forEach((element) => {
-      const gweetObject = {
-        ...element.data(),
-        id: element.id,
-      };
-      setGweets((prev: SnapshotData[]) => {
-        return [gweetObject, ...prev];
-      });
-    });
-  };
-
   useEffect(() => {
-    getGweets();
+    onSnapshot(collection(dbService, "gweets"), (snapshot) => {
+      const gweetsArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setGweets(gweetsArray);
+    });
   }, []);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,6 +25,7 @@ export default function Home() {
     await addDoc(collection(dbService, "gweets"), {
       gweet,
       createAt: Date.now(),
+      creatorId: userObj?.uid,
     });
 
     setGweet("");
