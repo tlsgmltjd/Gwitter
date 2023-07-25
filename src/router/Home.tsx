@@ -1,9 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { dbService } from "../firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+
+type SnapshotData = { gweet?: string; createAt?: number; id: string };
 
 export default function Home() {
   const [gweet, setGweet] = useState("");
+  const [gweets, setGweets] = useState<SnapshotData[]>([]);
+
+  const getGweets = async () => {
+    const querySnapshot = await getDocs(collection(dbService, "gweets"));
+
+    querySnapshot.forEach((element) => {
+      const gweetObject = {
+        ...element.data(),
+        id: element.id,
+      };
+      setGweets((prev: SnapshotData[]) => {
+        return [gweetObject, ...prev];
+      });
+    });
+  };
+
+  useEffect(() => {
+    getGweets();
+  }, []);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +45,8 @@ export default function Home() {
     setGweet(value);
   };
 
+  console.log(gweets);
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -36,6 +59,13 @@ export default function Home() {
         />
         <button>Gweet</button>
       </form>
+      <div>
+        {gweets.map((gweet) => (
+          <div key={gweet.id}>
+            <h4>{gweet.gweet}</h4>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
