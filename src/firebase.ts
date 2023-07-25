@@ -1,5 +1,6 @@
 import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
+import "firebase/database";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
