@@ -46,17 +46,21 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
     <div>
       {editing ? (
         <>
-          <form onSubmit={onSubmit}>
-            <input
-              type="text"
-              placeholder="Gweet을 수정해보세요"
-              value={newGweet}
-              onChange={onChange}
-              required
-            />
-            <button>확인</button>
-          </form>
-          <button onClick={toggleEditing}>취소</button>
+          {isOwner && (
+            <>
+              <form onSubmit={onSubmit}>
+                <input
+                  type="text"
+                  placeholder="Gweet을 수정해보세요"
+                  value={newGweet}
+                  onChange={onChange}
+                  required
+                />
+                <button>확인</button>
+              </form>
+              <button onClick={toggleEditing}>취소</button>
+            </>
+          )}
         </>
       ) : (
         <>

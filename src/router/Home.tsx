@@ -45,6 +45,20 @@ export default function Home({ userObj }: { userObj: User | null }) {
     setGweet(value);
   };
 
+  const onFileChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { files },
+    } = e;
+
+    if (!files) return;
+    const File = files[0];
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent) => {
+      console.log(finishedEvent);
+    };
+    reader.readAsDataURL(File);
+  };
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -54,7 +68,9 @@ export default function Home({ userObj }: { userObj: User | null }) {
           type="text"
           placeholder="어떤 생각을 하고 있나요?"
           maxLength={120}
+          required
         />
+        <input type="file" accept="image/*" onChange={onFileChange} />
         <button>Gweet</button>
       </form>
       <div>
