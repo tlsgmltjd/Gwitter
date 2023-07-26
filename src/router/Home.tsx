@@ -14,6 +14,7 @@ export type SnapshotData = {
 export default function Home({ userObj }: { userObj: User | null }) {
   const [gweet, setGweet] = useState("");
   const [gweets, setGweets] = useState<SnapshotData[]>([]);
+  const [file, setFile] = useState<string | ArrayBuffer | null>();
 
   useEffect(() => {
     onSnapshot(collection(dbService, "gweets"), (snapshot) => {
@@ -53,11 +54,14 @@ export default function Home({ userObj }: { userObj: User | null }) {
     if (!files) return;
     const File = files[0];
     const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      console.log(finishedEvent);
+    reader.onloadend = () => {
+      const { result } = reader;
+      setFile(result);
     };
     reader.readAsDataURL(File);
   };
+
+  const onClearPhoto = () => setFile(null);
 
   return (
     <div>
@@ -71,6 +75,12 @@ export default function Home({ userObj }: { userObj: User | null }) {
           required
         />
         <input type="file" accept="image/*" onChange={onFileChange} />
+        {file && (
+          <div>
+            <img src={file.toString()} width="50px" height="50px" />
+            <button onClick={onClearPhoto}>지울래요</button>
+          </div>
+        )}
         <button>Gweet</button>
       </form>
       <div>
