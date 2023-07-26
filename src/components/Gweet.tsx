@@ -1,6 +1,7 @@
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { dbService } from "../firebase";
+import { dbService, storageService } from "../firebase";
 import React, { useState } from "react";
+import { deleteObject, ref } from "firebase/storage";
 
 type IGweetProp = {
   gweetObj: {
@@ -22,6 +23,7 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
     if (ok) {
       // delete gweet
       await deleteDoc(doc(dbService, `gweets/${gweetObj.id}`));
+      await deleteObject(ref(storageService, gweetObj.fileUrl));
     }
   };
 
