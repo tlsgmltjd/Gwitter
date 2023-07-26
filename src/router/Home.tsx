@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../firebase";
-import { addDoc, collection, getDocs, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { User } from "firebase/auth";
+import Gweet from "../components/Gweet";
 
-type SnapshotData = { gweet?: string; createAt?: number; id: string };
+export type SnapshotData = {
+  gweet?: string;
+  createAt?: number;
+  id: string;
+  creatorId?: string;
+};
 
 export default function Home({ userObj }: { userObj: User | null }) {
   const [gweet, setGweet] = useState("");
@@ -39,8 +45,6 @@ export default function Home({ userObj }: { userObj: User | null }) {
     setGweet(value);
   };
 
-  console.log(gweets);
-
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -55,9 +59,11 @@ export default function Home({ userObj }: { userObj: User | null }) {
       </form>
       <div>
         {gweets.map((gweet) => (
-          <div key={gweet.id}>
-            <h4>{gweet.gweet}</h4>
-          </div>
+          <Gweet
+            key={gweet.id}
+            gweetObj={gweet}
+            isOwner={gweet.creatorId === userObj?.uid}
+          />
         ))}
       </div>
     </div>
