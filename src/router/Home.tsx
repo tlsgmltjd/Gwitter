@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { dbService } from "../firebase";
+import React, { useEffect, useRef, useState } from "react";
+import { dbService, storageService } from "../firebase";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { User } from "firebase/auth";
 import Gweet from "../components/Gweet";
+import { ref, uploadString } from "@firebase/storage";
+import { v4 as uuid4 } from "uuid";
 
 export type SnapshotData = {
   gweet?: string;
@@ -14,7 +16,9 @@ export type SnapshotData = {
 export default function Home({ userObj }: { userObj: User | null }) {
   const [gweet, setGweet] = useState("");
   const [gweets, setGweets] = useState<SnapshotData[]>([]);
-  const [file, setFile] = useState<string | ArrayBuffer | null>();
+  const [file, setFile] = useState<string>();
+
+  const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     onSnapshot(collection(dbService, "gweets"), (snapshot) => {
@@ -29,13 +33,19 @@ export default function Home({ userObj }: { userObj: User | null }) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await addDoc(collection(dbService, "gweets"), {
-      gweet,
-      createAt: Date.now(),
-      creatorId: userObj?.uid,
-    });
+    // await addDoc(collection(dbService, "gweets"), {
+    //   gweet,
+    //   createAt: Date.now(),
+    //   creatorId: userObj?.uid,
+    // });
 
-    setGweet("");
+    // setGweet("");
+
+    if (!file) return;
+
+    const fileRef = ref(storageService, `${userObj?.uid}/${uuid4()}`);
+    const response = await uploadString(fileRef, file, "data_url");
+    console.log(response);
   };
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -56,12 +66,17 @@ export default function Home({ userObj }: { userObj: User | null }) {
     const reader = new FileReader();
     reader.onloadend = () => {
       const { result } = reader;
-      setFile(result);
+      setFile(result?.toString());
     };
     reader.readAsDataURL(File);
   };
 
-  const onClearPhoto = () => setFile(null);
+  const onClearPhoto = () => {
+    if (fileInput.current) {
+      fileInput.current.value = "";
+    }
+    setFile("");
+  };
 
   return (
     <div>
@@ -74,7 +89,12 @@ export default function Home({ userObj }: { userObj: User | null }) {
           maxLength={120}
           required
         />
-        <input type="file" accept="image/*" onChange={onFileChange} />
+        <input
+          ref={fileInput}
+          type="file"
+          accept="image/*"
+          onChange={onFileChange}
+        />
         {file && (
           <div>
             <img src={file.toString()} width="50px" height="50px" />
