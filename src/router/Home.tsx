@@ -3,7 +3,7 @@ import { dbService, storageService } from "../firebase";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { User } from "firebase/auth";
 import Gweet from "../components/Gweet";
-import { ref, uploadString } from "@firebase/storage";
+import { ref, uploadString, getDownloadURL } from "@firebase/storage";
 import { v4 as uuid4 } from "uuid";
 
 export type SnapshotData = {
@@ -33,19 +33,26 @@ export default function Home({ userObj }: { userObj: User | null }) {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // await addDoc(collection(dbService, "gweets"), {
-    //   gweet,
-    //   createAt: Date.now(),
-    //   creatorId: userObj?.uid,
-    // });
+    let fileUrl = "";
 
-    // setGweet("");
+    if (file) {
+      // file을 업로드 했을 때
+      const fileRef = ref(storageService, `${userObj?.uid}/${uuid4()}`);
+      const response = await uploadString(fileRef, file, "data_url");
+      fileUrl = await getDownloadURL(response.ref);
+    }
 
-    if (!file) return;
+    const newGweet = {
+      gweet,
+      createAt: Date.now(),
+      creatorId: userObj?.uid,
+      fileUrl,
+    };
 
-    const fileRef = ref(storageService, `${userObj?.uid}/${uuid4()}`);
-    const response = await uploadString(fileRef, file, "data_url");
-    console.log(response);
+    await addDoc(collection(dbService, "gweets"), newGweet);
+
+    setGweet("");
+    setFile("");
   };
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {

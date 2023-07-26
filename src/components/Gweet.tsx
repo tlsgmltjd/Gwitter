@@ -8,6 +8,7 @@ type IGweetProp = {
     creatorId?: string;
     gweet?: string;
     id?: string;
+    fileUrl?: string;
   };
 
   isOwner: boolean;
@@ -65,6 +66,9 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
       ) : (
         <>
           <h4>{gweetObj.gweet}</h4>
+          {gweetObj.fileUrl && (
+            <img src={gweetObj.fileUrl} width="50px" height="50px" />
+          )}
           {isOwner && (
             <>
               <button onClick={onDeleteClick}>지우기</button>
