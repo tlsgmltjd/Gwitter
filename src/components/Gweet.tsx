@@ -73,7 +73,7 @@ const EditButton = styled.button`
 
 const GweetText = styled.p`
   max-width: 50%;
-  overflow: scroll;
+  overflow: hidden;
   margin-left: 60px;
 `;
 
