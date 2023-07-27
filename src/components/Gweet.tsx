@@ -10,6 +10,7 @@ type IGweetProp = {
     gweet?: string;
     id?: string;
     fileUrl?: string;
+    userName?: string;
   };
 
   isOwner: boolean;
@@ -68,6 +69,7 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
         </>
       ) : (
         <>
+          <span>{gweetObj.userName ?? "???"}</span>
           <h4>{gweetObj.gweet}</h4>
           {gweetObj.fileUrl && (
             <img src={gweetObj.fileUrl} width="50px" height="50px" />

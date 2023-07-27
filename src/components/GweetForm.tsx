@@ -27,6 +27,7 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
       createAt: Date.now(),
       creatorId: userObj?.uid,
       fileUrl,
+      userName: userObj?.displayName ?? userObj?.email?.split("@")[0],
     };
 
     await addDoc(collection(dbService, "gweets"), newGweet);
