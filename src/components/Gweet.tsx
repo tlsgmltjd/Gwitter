@@ -23,7 +23,8 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
     if (ok) {
       // delete gweet
       await deleteDoc(doc(dbService, `gweets/${gweetObj.id}`));
-      await deleteObject(ref(storageService, gweetObj.fileUrl));
+      if (gweetObj.fileUrl)
+        await deleteObject(ref(storageService, gweetObj.fileUrl));
     }
   };
 
