@@ -157,6 +157,8 @@ export default function Profile({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!displayName?.length) return;
+    if (displayName?.length > 8) return alert("8글자 이내로 입력해주세요!");
     if (!displayName) return alert("변경할 이름을 입력해주세요!");
     if (userObj?.displayName ?? userObj?.email?.split("@")[0] !== displayName) {
       await updateProfile(userObj!, { displayName: displayName });
