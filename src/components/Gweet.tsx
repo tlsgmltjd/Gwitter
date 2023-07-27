@@ -63,6 +63,7 @@ const EditButton = styled.button`
   background-color: rgba(0, 0, 0, 0);
   border: 1px solid white;
   color: white;
+  padding: 2px 5px;
 
   &:hover {
     border: 1px solid #74b9ff;

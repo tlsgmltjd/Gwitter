@@ -35,6 +35,7 @@ const EditNameButton = styled.button`
   color: white;
   padding: 5px 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: border 0.3s ease;
 
   &:hover {
@@ -57,6 +58,7 @@ const LogoutButton = styled.button`
   color: white;
   padding: 5px 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
@@ -96,6 +98,7 @@ const MyGweetToggleButton = styled.button<{ myGweetToggle: boolean }>`
   color: white;
   padding: 5px 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: all 0.3s ease;
 `;
 

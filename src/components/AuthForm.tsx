@@ -41,6 +41,7 @@ const AuthButton = styled.button`
   background-color: white;
   color: #2d3436;
   font-size: 15px;
+  cursor: pointer;
 `;
 
 const AuthChangeButton = styled(AuthButton)`

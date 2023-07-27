@@ -36,6 +36,7 @@ const OAuthButton = styled.button`
   color: white;
   font-size: 15px;
   margin-top: 25px;
+  cursor: pointer;
 
   &:hover {
     border: 1px solid #74b9ff;
