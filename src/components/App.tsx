@@ -23,6 +23,7 @@ export default function App() {
   }, []);
 
   const refreshUser = async () => {
+    // 너무 큰 onject라서 리엑트가 렌더링 할지 결정장애가 옴
     await updateCurrentUser(authService, authService.currentUser);
     setUserObj(authService.currentUser);
   };
