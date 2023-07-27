@@ -105,6 +105,7 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
     e.preventDefault();
 
     if (gweet.length > 120) return alert("120자 이내로 작성해주세요!");
+    if (gweet.length < 2) return alert("2자 이상으로 작성해주세요!");
 
     setIsLoading(true);
 

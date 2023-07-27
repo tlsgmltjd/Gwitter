@@ -94,6 +94,8 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!newGweet?.length) return;
+    if (newGweet?.length > 120) return alert("120자 이내로 수정해주세요!");
     await updateDoc(doc(dbService, `gweets/${gweetObj.id}`), {
       gweet: newGweet,
     });
