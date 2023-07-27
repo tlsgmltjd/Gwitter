@@ -8,9 +8,11 @@ import { User } from "firebase/auth";
 export default function Router({
   userObj,
   isLoggedIn,
+  refreshUser,
 }: {
   userObj: User | null;
   isLoggedIn: boolean;
+  refreshUser: () => void;
 }) {
   return (
     <>
@@ -19,7 +21,10 @@ export default function Router({
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home userObj={userObj} />} />
-            <Route path="/profile" element={<Profile userObj={userObj} />} />
+            <Route
+              path="/profile"
+              element={<Profile userObj={userObj} refreshUser={refreshUser} />}
+            />
           </>
         ) : (
           <>

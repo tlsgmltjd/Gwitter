@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { User, updateProfile } from "firebase/auth";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
-export default function Profile({ userObj }: { userObj: User | null }) {
+export default function Profile({
+  userObj,
+  refreshUser,
+}: {
+  userObj: User | null;
+  refreshUser: () => void;
+}) {
   const [displayName, setDisplayName] = useState(
     userObj?.displayName ?? userObj?.email?.split("@")[0]
   );
@@ -38,8 +44,11 @@ export default function Profile({ userObj }: { userObj: User | null }) {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!displayName) return alert("변경할 이름을 입력해주세요!");
     if (userObj?.displayName ?? userObj?.email?.split("@")[0] !== displayName) {
       await updateProfile(userObj!, { displayName: displayName });
+      refreshUser();
+      return alert("정상적으로 변경되었습니다!");
     }
   };
 

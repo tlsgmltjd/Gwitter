@@ -3,7 +3,7 @@ import Router from "./Router";
 import { useEffect, useState } from "react";
 import { authService } from "../firebase";
 import { Helmet } from "react-helmet";
-import { User } from "firebase/auth";
+import { User, updateCurrentUser } from "firebase/auth";
 
 export default function App() {
   const [init, setInit] = useState(false);
@@ -22,6 +22,11 @@ export default function App() {
     });
   }, []);
 
+  const refreshUser = async () => {
+    await updateCurrentUser(authService, authService.currentUser);
+    setUserObj(authService.currentUser);
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -29,7 +34,11 @@ export default function App() {
           <title>Gwitter</title>
         </Helmet>
         {init ? (
-          <Router userObj={userObj} isLoggedIn={isLoggedIn} />
+          <Router
+            userObj={userObj}
+            isLoggedIn={isLoggedIn}
+            refreshUser={refreshUser}
+          />
         ) : (
           "Loading.."
         )}
