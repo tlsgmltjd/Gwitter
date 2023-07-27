@@ -23,7 +23,7 @@ const GweetsContainer = styled.div`
 `;
 
 const GweetsBox = styled.div`
-  max-width: 400px;
+  max-width: 550px;
   margin: 0 auto;
 `;
 

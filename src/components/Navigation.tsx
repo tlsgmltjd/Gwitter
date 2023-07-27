@@ -7,7 +7,7 @@ const NavigationContainer = styled.nav`
 `;
 
 const NavigationBox = styled.ul`
-  width: 300px;
+  width: 400px;
   padding: 0;
   gap: 20px;
   margin: 20px auto;
@@ -19,13 +19,15 @@ const NavigationButton = styled.li`
   border: 1px solid white;
   width: 100%;
   text-align: center;
-  padding: 5px 20px;
+  padding: 10px 15px;
   border-radius: 8px;
 `;
 
 const NavigationText = styled.span`
   width: 100%;
+  height: 100%;
   transition: all 0.3s ease;
+  color: white;
 
   &:hover {
     color: #74b9ff;

@@ -8,7 +8,7 @@ import { styled } from "styled-components";
 
 const GweetFormContainer = styled.form`
   max-width: 300px;
-  margin: 50px auto;
+  margin: 40px auto 55px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +21,8 @@ const InputGweet = styled.input`
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0);
   outline: none;
-  padding: 20px 150px 20px 15px;
+  padding: 20px 80px 20px 15px;
+  width: 100%;
   text-align: left;
   color: white;
   font-size: 15px;
@@ -40,7 +41,7 @@ const GweetButton = styled.button<{ isLoading: boolean }>`
   padding: 8px;
   position: absolute;
   top: 25px;
-  right: 8px;
+  right: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
 

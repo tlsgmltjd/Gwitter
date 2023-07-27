@@ -19,10 +19,10 @@ type IGweetProp = {
 
 const GweetBox = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid white;
-  padding: 5px 15px;
+  padding: 10px 15px;
   width: 100%;
   height: 100%;
   border-radius: 15px;
@@ -36,9 +36,11 @@ const EditButtonBox = styled.div`
   right: 15px;
 `;
 
-const GweetName = styled.span`
+const GweetName = styled.h4`
   position: absolute;
+  margin-right: 15px;
   left: 15px;
+  font-size: 13px;
 `;
 
 const GweetImg = styled.img`
@@ -66,6 +68,12 @@ const EditButton = styled.button`
     border: 1px solid #74b9ff;
     color: #74b9ff;
   }
+`;
+
+const GweetText = styled.p`
+  max-width: 50%;
+  overflow: scroll;
+  margin-left: 60px;
 `;
 
 export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
@@ -123,7 +131,7 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
         ) : (
           <>
             <GweetName>{gweetObj.userName ?? "???"}</GweetName>
-            <h4>{gweetObj.gweet}</h4>
+            <GweetText>{gweetObj.gweet}</GweetText>
 
             {isOwner && (
               <EditButtonBox>

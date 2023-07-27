@@ -56,7 +56,7 @@ const ErrorText = styled.span`
 export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [newAccount, setNewAccount] = useState(true);
+  const [newAccount, setNewAccount] = useState(false);
   const [error, setError] = useState("");
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
