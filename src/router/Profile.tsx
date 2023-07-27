@@ -36,7 +36,7 @@ export default function Profile({
     const q = query(
       collection(dbService, "gweets"),
       where("creatorId", "==", `${userObj?.uid}`),
-      orderBy("createAt", "desc")
+      orderBy("createAt", "asc")
     );
 
     const querySnapshot = await getDocs(q);

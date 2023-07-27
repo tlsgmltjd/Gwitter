@@ -8,7 +8,7 @@ import { styled } from "styled-components";
 
 const GweetFormContainer = styled.form`
   max-width: 300px;
-  margin: 0 auto;
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

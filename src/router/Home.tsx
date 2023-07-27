@@ -32,13 +32,13 @@ export default function Home({ userObj }: { userObj: User | null }) {
 
   useEffect(() => {
     onSnapshot(collection(dbService, "gweets"), (snapshot) => {
-      const gweetsArray = snapshot.docs.map((doc) => ({
+      const gweetsArray: SnapshotData[] = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
-      const orderedGweets = gweetsArray.sort((a, b) => b.createAt - a.createAt);
-      console.log(orderedGweets);
+      const orderedGweets = gweetsArray.sort(
+        (a, b) => b.createAt! - a.createAt!
+      );
       setGweets(orderedGweets);
     });
   }, []);
