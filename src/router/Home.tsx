@@ -18,6 +18,15 @@ const HomeContainer = styled.main`
   height: 100%;
 `;
 
+const GweetsContainer = styled.div`
+  width: 100%;
+`;
+
+const GweetsBox = styled.div`
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
 export default function Home({ userObj }: { userObj: User | null }) {
   const [gweets, setGweets] = useState<SnapshotData[]>([]);
 
@@ -27,22 +36,27 @@ export default function Home({ userObj }: { userObj: User | null }) {
         id: doc.id,
         ...doc.data(),
       }));
-      setGweets(gweetsArray);
+
+      const orderedGweets = gweetsArray.sort((a, b) => b.createAt - a.createAt);
+      console.log(orderedGweets);
+      setGweets(orderedGweets);
     });
   }, []);
 
   return (
     <HomeContainer>
       <GweetForm userObj={userObj} />
-      <div>
-        {gweets.map((gweet) => (
-          <Gweet
-            key={gweet.id}
-            gweetObj={gweet}
-            isOwner={gweet.creatorId === userObj?.uid}
-          />
-        ))}
-      </div>
+      <GweetsContainer>
+        <GweetsBox>
+          {gweets.map((gweet) => (
+            <Gweet
+              key={gweet.id}
+              gweetObj={gweet}
+              isOwner={gweet.creatorId === userObj?.uid}
+            />
+          ))}
+        </GweetsBox>
+      </GweetsContainer>
     </HomeContainer>
   );
 }

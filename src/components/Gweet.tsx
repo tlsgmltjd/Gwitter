@@ -2,6 +2,7 @@ import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { dbService, storageService } from "../firebase";
 import React, { useState } from "react";
 import { deleteObject, ref } from "firebase/storage";
+import { styled } from "styled-components";
 
 type IGweetProp = {
   gweetObj: {
@@ -15,6 +16,57 @@ type IGweetProp = {
 
   isOwner: boolean;
 };
+
+const GweetBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  padding: 5px 15px;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  position: relative;
+`;
+
+const EditButtonBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 15px;
+`;
+
+const GweetName = styled.span`
+  position: absolute;
+  left: 15px;
+`;
+
+const GweetImg = styled.img`
+  max-width: 100px;
+  max-height: 70px;
+  border-radius: 15px;
+  border: 1px solid white;
+`;
+
+const GweetContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 15px;
+`;
+
+const EditButton = styled.button`
+  border-radius: 8px;
+  margin: 3px 0px 3px 0;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid white;
+  color: white;
+
+  &:hover {
+    border: 1px solid #74b9ff;
+    color: #74b9ff;
+  }
+`;
 
 export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
   const [editing, setEditing] = useState(false);
@@ -48,40 +100,41 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
   };
 
   return (
-    <div>
-      {editing ? (
-        <>
-          {isOwner && (
-            <>
-              <form onSubmit={onSubmit}>
-                <input
-                  type="text"
-                  placeholder="Gweet을 수정해보세요"
-                  value={newGweet}
-                  onChange={onChange}
-                  required
-                />
-                <button>확인</button>
-              </form>
-              <button onClick={toggleEditing}>취소</button>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <span>{gweetObj.userName ?? "???"}</span>
-          <h4>{gweetObj.gweet}</h4>
-          {gweetObj.fileUrl && (
-            <img src={gweetObj.fileUrl} width="50px" height="50px" />
-          )}
-          {isOwner && (
-            <>
-              <button onClick={onDeleteClick}>지우기</button>
-              <button onClick={toggleEditing}>수정하기</button>
-            </>
-          )}
-        </>
-      )}
-    </div>
+    <GweetContainer>
+      <GweetBox>
+        {editing ? (
+          <>
+            {isOwner && (
+              <>
+                <form onSubmit={onSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Gweet을 수정해보세요"
+                    value={newGweet}
+                    onChange={onChange}
+                    required
+                  />
+                  <button>확인</button>
+                </form>
+                <button onClick={toggleEditing}>취소</button>
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <GweetName>{gweetObj.userName ?? "???"}</GweetName>
+            <h4>{gweetObj.gweet}</h4>
+
+            {isOwner && (
+              <EditButtonBox>
+                <EditButton onClick={onDeleteClick}>❌</EditButton>
+                <EditButton onClick={toggleEditing}>✏️</EditButton>
+              </EditButtonBox>
+            )}
+          </>
+        )}
+      </GweetBox>
+      {gweetObj.fileUrl && <GweetImg src={gweetObj.fileUrl} />}
+    </GweetContainer>
   );
 }

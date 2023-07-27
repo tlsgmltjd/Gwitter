@@ -4,6 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { User, updateProfile } from "firebase/auth";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
+interface IGweet {
+  createAt?: number;
+  creatorId?: string;
+  gweet?: string;
+  id?: string;
+  fileUrl?: string;
+  userName?: string;
+}
+
 export default function Profile({
   userObj,
   refreshUser,
@@ -14,6 +23,7 @@ export default function Profile({
   const [displayName, setDisplayName] = useState(
     userObj?.displayName ?? userObj?.email?.split("@")[0]
   );
+  const [myGweets, setMyGweets] = useState<IGweet[]>([]);
 
   const navigate = useNavigate();
 
@@ -31,7 +41,9 @@ export default function Profile({
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+      setMyGweets((prev) => {
+        return [{ ...doc.data() }, ...prev];
+      });
     });
   };
 
@@ -54,16 +66,24 @@ export default function Profile({
 
   return (
     <>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="이름 수정"
-          value={displayName}
-          onChange={onChange}
-        />
-        <button>확인</button>
-      </form>
-      <button onClick={onLogOutClick}>로그아웃</button>
+      <div>
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            placeholder="이름 수정"
+            value={displayName}
+            onChange={onChange}
+          />
+          <button>확인</button>
+        </form>
+        <button onClick={onLogOutClick}>로그아웃</button>
+        <div>
+          <span>내가 작성한 Gweet</span>
+          {myGweets.map((gweet) => (
+            <div key={gweet.id}>{gweet.gweet}</div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }
