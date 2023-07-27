@@ -14,7 +14,7 @@ export default function Router({
 }) {
   return (
     <>
-      {isLoggedIn && <Navigation />}
+      {isLoggedIn && <Navigation userObj={userObj} />}
       <Routes>
         {isLoggedIn ? (
           <>

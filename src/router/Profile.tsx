@@ -1,10 +1,14 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { authService, dbService } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { User } from "firebase/auth";
+import { User, updateProfile } from "firebase/auth";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 export default function Profile({ userObj }: { userObj: User | null }) {
+  const [displayName, setDisplayName] = useState(
+    userObj?.displayName ?? userObj?.email?.split("@")[0]
+  );
+
   const navigate = useNavigate();
 
   const onLogOutClick = () => {
@@ -29,8 +33,27 @@ export default function Profile({ userObj }: { userObj: User | null }) {
     getMyGweet();
   }, []);
 
+  const onChange = (e: React.FormEvent<HTMLInputElement>) =>
+    setDisplayName(e.currentTarget.value);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (userObj?.displayName ?? userObj?.email?.split("@")[0] !== displayName) {
+      await updateProfile(userObj!, { displayName: displayName });
+    }
+  };
+
   return (
     <>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="이름 수정"
+          value={displayName}
+          onChange={onChange}
+        />
+        <button>확인</button>
+      </form>
       <button onClick={onLogOutClick}>로그아웃</button>
     </>
   );
