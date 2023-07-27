@@ -103,6 +103,9 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
     if (isLoading) return;
 
     e.preventDefault();
+
+    if (gweet.length > 120) return alert("120자 이내로 작성해주세요!");
+
     setIsLoading(true);
 
     let fileUrl = "";
