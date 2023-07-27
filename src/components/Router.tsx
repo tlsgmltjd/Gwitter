@@ -4,24 +4,6 @@ import Home from "../router/Home";
 import Navigation from "./Navigation";
 import Profile from "../router/Profile";
 import { User } from "firebase/auth";
-import { createGlobalStyle } from "styled-components";
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-color: #2d3436;
-    color: white;
-    a {
-      text-decoration: none;
-      color: white;
-    }
-    ul {
-      list-style: none;
-    }
-  }
-  * {
-    box-sizing: border-box;
-  }
-`;
 
 export default function Router({
   userObj,
@@ -34,7 +16,6 @@ export default function Router({
 }) {
   return (
     <>
-      <GlobalStyle />
       {isLoggedIn && <Navigation userObj={userObj} />}
       <Routes>
         {isLoggedIn ? (
@@ -44,12 +25,14 @@ export default function Router({
               path="/profile"
               element={<Profile userObj={userObj} refreshUser={refreshUser} />}
             />
+            <Route path="*" element={<h1>404</h1>} />
           </>
         ) : (
           <>
             <Route path="/" element={<Auth />} />
           </>
         )}
+        <Route path="*" element={<h1>404</h1>} />
       </Routes>
     </>
   );
