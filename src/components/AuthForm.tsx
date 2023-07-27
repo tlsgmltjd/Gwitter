@@ -4,6 +4,54 @@ import {
 } from "firebase/auth";
 import { useState } from "react";
 import { authService } from "../firebase";
+import { styled } from "styled-components";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  min-width: 300px;
+  margin: 15px 0;
+`;
+
+const InputBox = styled.input`
+  border-radius: 8px;
+  text-align: center;
+  padding: 12px 12px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 1.5px solid gray;
+  outline: none;
+  color: white;
+  transition: border 0.3s ease;
+
+  &:hover {
+    border: 1.5px solid #74b9ff;
+    transition: border 0.3s ease;
+  }
+`;
+
+const AuthButton = styled.button`
+  border-radius: 15px;
+  border: none;
+  padding: 10px 80px;
+  margin: 5px;
+  background-color: white;
+  color: #2d3436;
+  font-size: 15px;
+`;
+
+const AuthChangeButton = styled(AuthButton)`
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+`;
+
+const ErrorText = styled.span`
+  color: #ff7675;
+`;
 
 export default function AuthForm() {
   const [email, setEmail] = useState("");
@@ -48,8 +96,8 @@ export default function AuthForm() {
 
   return (
     <>
-      <form onSubmit={onSubmit}>
-        <input
+      <Form onSubmit={onSubmit}>
+        <InputBox
           name="email"
           type="email"
           placeholder="Email"
@@ -57,7 +105,7 @@ export default function AuthForm() {
           onChange={onChange}
           required
         />
-        <input
+        <InputBox
           name="password"
           type="password"
           placeholder="Password"
@@ -65,12 +113,12 @@ export default function AuthForm() {
           onChange={onChange}
           required
         />
-        <button>{newAccount ? "가입하기" : "로그인하기"}</button>
-        {error}
-      </form>
-      <button onClick={toggleAccount}>
-        {newAccount ? "로그인 할래요" : "새로 가입 할래요"}
-      </button>
+        <AuthButton>{newAccount ? "가입하기" : "로그인하기"}</AuthButton>
+        <ErrorText>{error}</ErrorText>
+      </Form>
+      <AuthChangeButton onClick={toggleAccount}>
+        {newAccount ? "🔄 로그인 할래요" : "🔄 새로 가입 할래요"}
+      </AuthChangeButton>
     </>
   );
 }

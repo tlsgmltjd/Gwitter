@@ -4,6 +4,13 @@ import Home from "../router/Home";
 import Navigation from "./Navigation";
 import Profile from "../router/Profile";
 import { User } from "firebase/auth";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #2d3436;
+  }
+`;
 
 export default function Router({
   userObj,
@@ -16,6 +23,7 @@ export default function Router({
 }) {
   return (
     <>
+      <GlobalStyle />
       {isLoggedIn && <Navigation userObj={userObj} />}
       <Routes>
         {isLoggedIn ? (
