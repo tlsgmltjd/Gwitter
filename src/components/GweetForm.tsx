@@ -4,6 +4,93 @@ import { useRef, useState } from "react";
 import { v4 as uuid4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { User } from "firebase/auth";
+import { styled } from "styled-components";
+
+const GweetFormContainer = styled.form`
+  max-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+const InputGweet = styled.input`
+  border: 1px solid white;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  padding: 20px 150px 20px 15px;
+  text-align: left;
+  color: white;
+  font-size: 15px;
+  margin: 12px 0;
+
+  &::placeholder {
+    color: white;
+  }
+`;
+
+const GweetButton = styled.button`
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid #74b9ff;
+  color: #74b9ff;
+  border-radius: 9999px;
+  padding: 8px;
+  position: absolute;
+  top: 25px;
+  right: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border: 1px solid white;
+    color: white;
+    transition: all 0.3s ease;
+  }
+`;
+
+const InputFile = styled.input`
+  display: none;
+`;
+
+const InputFileLable = styled.label`
+  color: #74b9ff;
+  font-size: 15px;
+
+  &:hover {
+    color: white;
+  }
+`;
+
+const FilePreviwBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin: 15px;
+`;
+
+const FilePreviw = styled.img`
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 15px;
+  border: 2px solid white;
+`;
+
+const FilePreviwCancelButton = styled.button`
+  background-color: rgba(0, 0, 0, 0);
+  border: 1px solid white;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 15px;
+
+  &:hover {
+    border: 1px solid #74b9ff;
+    color: #74b9ff;
+  }
+`;
 
 export default function GweetForm({ userObj }: { userObj: User | null }) {
   const [gweet, setGweet] = useState("");
@@ -67,8 +154,8 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
+    <GweetFormContainer onSubmit={onSubmit}>
+      <InputGweet
         value={gweet}
         onChange={onChange}
         type="text"
@@ -76,19 +163,24 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
         maxLength={120}
         required
       />
-      <input
-        ref={fileInput}
-        type="file"
-        accept="image/*"
-        onChange={onFileChange}
-      />
+      <InputFileLable>
+        + 사진 첨부하기
+        <InputFile
+          ref={fileInput}
+          type="file"
+          accept="image/*"
+          onChange={onFileChange}
+        />
+      </InputFileLable>
       {file && (
-        <div>
-          <img src={file.toString()} width="50px" height="50px" />
-          <button onClick={onClearPhoto}>지울래요</button>
-        </div>
+        <FilePreviwBox>
+          <FilePreviw src={file.toString()} />
+          <FilePreviwCancelButton onClick={onClearPhoto}>
+            지울래요
+          </FilePreviwCancelButton>
+        </FilePreviwBox>
       )}
-      <button>Gweet</button>
-    </form>
+      <GweetButton>Gweet</GweetButton>
+    </GweetFormContainer>
   );
 }

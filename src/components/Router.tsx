@@ -9,6 +9,14 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #2d3436;
+    color: white;
+    a {
+      text-decoration: none;
+      color: white;
+    }
+    ul {
+      list-style: none;
+    }
   }
 `;
 
