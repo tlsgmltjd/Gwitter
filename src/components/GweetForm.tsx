@@ -32,10 +32,10 @@ const InputGweet = styled.input`
   }
 `;
 
-const GweetButton = styled.button`
+const GweetButton = styled.button<{ isLoading: boolean }>`
   background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #74b9ff;
-  color: #74b9ff;
+  border: 1px solid ${(props) => (props.isLoading ? "#ff7675" : "#74b9ff")};
+  color: ${(props) => (props.isLoading ? "#ff7675" : "#74b9ff")};
   border-radius: 9999px;
   padding: 8px;
   position: absolute;
@@ -45,8 +45,8 @@ const GweetButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover {
-    border: 1px solid white;
-    color: white;
+    border: ${(props) => !props.isLoading && "1px solid white"};
+    color: ${(props) => !props.isLoading && "white"};
     transition: all 0.3s ease;
   }
 `;
@@ -95,10 +95,14 @@ const FilePreviwCancelButton = styled.button`
 export default function GweetForm({ userObj }: { userObj: User | null }) {
   const [gweet, setGweet] = useState("");
   const [file, setFile] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (isLoading) return;
+
     e.preventDefault();
+    setIsLoading(true);
 
     let fileUrl = "";
 
@@ -118,6 +122,8 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
     };
 
     await addDoc(collection(dbService, "gweets"), newGweet);
+
+    setIsLoading(false);
 
     setGweet("");
     setFile("");
@@ -180,7 +186,9 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
           </FilePreviwCancelButton>
         </FilePreviwBox>
       )}
-      <GweetButton>Gweet</GweetButton>
+      <GweetButton isLoading={isLoading} disabled={isLoading}>
+        Gweet
+      </GweetButton>
     </GweetFormContainer>
   );
 }
