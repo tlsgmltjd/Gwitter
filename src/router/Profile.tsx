@@ -162,7 +162,7 @@ export default function Profile({
     if (!displayName?.length) return;
     if (!/^[^\s]+$/.test(displayName))
       return alert("이름에 공백이 들어갈 수 없습니다!");
-    if (displayName?.length > 8) return alert("8글자 이내로 입력해주세요!");
+    if (displayName?.length > 9) return alert("8글자 이내로 입력해주세요!");
     if (!displayName) return alert("변경할 이름을 입력해주세요!");
     if (userObj?.displayName ?? userObj?.email?.split("@")[0] !== displayName) {
       await updateProfile(userObj!, { displayName: displayName });
