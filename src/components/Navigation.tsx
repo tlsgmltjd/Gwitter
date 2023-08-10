@@ -7,20 +7,29 @@ const NavigationContainer = styled.nav`
 `;
 
 const NavigationBox = styled.ul`
-  width: 400px;
-  padding: 0;
-  gap: 20px;
+  width: 100%;
+  padding: 0 10px 0 10px;
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
+  font-size: 20px;
+
+  @media screen and (max-width: 550px) {
+    font-size: 15px;
+  }
 `;
 
 const NavigationButton = styled.li`
-  border: 1px solid white;
+  border-left: 1px solid white;
   width: 100%;
-  text-align: center;
   padding: 10px 15px;
-  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:last-child {
+    border-right: 1px solid white;
+  }
 `;
 
 const NavigationText = styled.span`
@@ -35,10 +44,19 @@ const NavigationText = styled.span`
   }
 `;
 
+const HighlightText = styled.span`
+  font-weight: 700;
+`;
+
 export default function Navigation({ userObj }: { userObj: User | null }) {
   return (
     <NavigationContainer>
       <NavigationBox>
+        <NavigationButton>
+          <Link to="/dm">
+            <NavigationText>개인 메시지</NavigationText>
+          </Link>
+        </NavigationButton>
         <NavigationButton>
           <Link to="/">
             <NavigationText>홈</NavigationText>
@@ -47,7 +65,10 @@ export default function Navigation({ userObj }: { userObj: User | null }) {
         <NavigationButton>
           <Link to="/profile">
             <NavigationText>
-              {userObj?.displayName ?? userObj?.email?.split("@")[0]}의 프로필
+              <HighlightText>
+                {userObj?.displayName ?? userObj?.email?.split("@")[0]}
+              </HighlightText>
+              의 프로필
             </NavigationText>
           </Link>
         </NavigationButton>
