@@ -39,8 +39,8 @@ const GweetFileBox = styled.div`
   justify-content: space-around;
   align-items: center;
   padding: 10px 15px;
-  width: 100%;
-  height: 100%;
+  width: 300px;
+  height: 200px;
   position: relative;
   font-size: 10px;
 
@@ -160,6 +160,10 @@ const GwettEditButton = styled.button`
   }
 `;
 
+const GweetFileContentBox = styled.div`
+  width: 100px;
+`;
+
 export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
   const [editing, setEditing] = useState(false);
   const [newGweet, setNewGweet] = useState(gweetObj.gweet);
@@ -254,7 +258,7 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
               )}
             </>
           ) : (
-            <>
+            <GweetFileContentBox>
               <GweetName>{gweetObj.userName ?? "???"}</GweetName>
 
               {isOwner && (
@@ -263,7 +267,7 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
                   <EditButton onClick={toggleEditing}>✏️</EditButton>
                 </EditButtonBox>
               )}
-            </>
+            </GweetFileContentBox>
           )}
         </GweetFileBox>
       )}

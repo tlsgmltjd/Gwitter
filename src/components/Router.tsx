@@ -4,6 +4,7 @@ import Home from "../router/Home";
 import Navigation from "./Navigation";
 import Profile from "../router/Profile";
 import { User } from "firebase/auth";
+import Dm from "../router/Dm";
 
 export default function Router({
   userObj,
@@ -25,6 +26,7 @@ export default function Router({
               path="/profile"
               element={<Profile userObj={userObj} refreshUser={refreshUser} />}
             />
+            <Route path="/dm" element={<Dm />} />
             <Route path="*" element={<h1>404</h1>} />
           </>
         ) : (

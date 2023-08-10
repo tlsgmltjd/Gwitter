@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { dbService } from "../firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+// import { dbService } from "../firebase";
+// import { collection, onSnapshot } from "firebase/firestore";
 import { User } from "firebase/auth";
 import Gweet from "../components/Gweet";
 import GweetForm from "../components/GweetForm";
@@ -63,16 +63,20 @@ export default function Home({ userObj }: { userObj: User | null }) {
   };
 
   useEffect(() => {
-    onSnapshot(collection(dbService, "gweets"), (snapshot) => {
-      const gweetsArray: SnapshotData[] = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      const orderedGweets = gweetsArray.sort(
-        (a, b) => a.createAt! - b.createAt!
-      );
-      setGweets(orderedGweets);
-    });
+    // onSnapshot(collection(dbService, "gweets"), (snapshot) => {
+    //   const gweetsArray: SnapshotData[] = snapshot.docs.map((doc) => ({
+    //     id: doc.id,
+    //     ...doc.data(),
+    //   }));
+    //   const orderedGweets = gweetsArray.sort(
+    //     (a, b) => a.createAt! - b.createAt!
+    //   );
+    //   setGweets(orderedGweets);
+    // });
+
+    // 할당량 초기화 전 까지 주석처리
+
+    setGweets([]);
   }, []);
 
   useEffect(() => {
@@ -102,7 +106,11 @@ export default function Home({ userObj }: { userObj: User | null }) {
           <LastGweet>
             {gweets.length === 0 ? (
               <>
-                <span>잠시만 기다려 주세요!</span>
+                {/*<span>잠시만 기다려 주세요!</span>*/}
+                <span>
+                  현재 파이어베이스 읽기 할당량이 모두 소진되어 잠시 볼 수
+                  없어요
+                </span>
               </>
             ) : (
               <>
