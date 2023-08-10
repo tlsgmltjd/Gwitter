@@ -158,23 +158,19 @@ export default function Profile({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////
     alert("현재 이름 변경이 제한됩니다!");
     return;
 
-    if (!displayName?.length) return;
-    if (!/^[^\s]+$/.test(displayName))
-      return alert("이름에 공백이 들어갈 수 없습니다!");
-    if (displayName?.length > 9) return alert("8글자 이내로 입력해주세요!");
-    if (!displayName) return alert("변경할 이름을 입력해주세요!");
-    if (userObj?.displayName ?? userObj?.email?.split("@")[0] !== displayName) {
-      await updateProfile(userObj!, { displayName: displayName });
-      refreshUser();
-      return alert("정상적으로 변경되었습니다!");
-    }
+    // if (!displayName?.length) return;
+    // if (!/^[^\s]+$/.test(displayName))
+    //   return alert("이름에 공백이 들어갈 수 없습니다!");
+    // if (displayName?.length > 9) return alert("8글자 이내로 입력해주세요!");
+    // if (!displayName) return alert("변경할 이름을 입력해주세요!");
+    // if (userObj?.displayName ?? userObj?.email?.split("@")[0] !== displayName) {
+    //   await updateProfile(userObj!, { displayName: displayName });
+    //   refreshUser();
+    //   return alert("정상적으로 변경되었습니다!");
+    // }
   };
 
   return (

@@ -43,7 +43,15 @@ const GweetsBox = styled.div`
 
 export default function Home({ userObj }: { userObj: User | null }) {
   const [gweets, setGweets] = useState<SnapshotData[]>([]);
+  const [fristScroll, setFirstScroll] = useState(true);
   const gweetContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollInit = () => {
+    if (!gweetContainerRef.current) return;
+
+    gweetContainerRef.current.scrollTop =
+      gweetContainerRef.current.scrollHeight;
+  };
 
   useEffect(() => {
     onSnapshot(collection(dbService, "gweets"), (snapshot) => {
@@ -59,21 +67,23 @@ export default function Home({ userObj }: { userObj: User | null }) {
   }, []);
 
   useEffect(() => {
-    if (!gweetContainerRef.current) return;
+    if (gweets.length === 0) return;
+    if (fristScroll) {
+      scrollInit();
+      setFirstScroll(false);
+    } else {
+      if (!gweetContainerRef.current) return;
 
-    gweetContainerRef.current.scrollTop =
-      gweetContainerRef.current.scrollHeight;
+      const isScrolledToBottom =
+        gweetContainerRef.current.scrollHeight -
+          gweetContainerRef.current.clientHeight <=
+        gweetContainerRef.current.scrollTop + 500; // 작은 오차를 허용
 
-    console.log(gweetContainerRef.current.scrollHeight);
-  }, []);
-
-  useEffect(() => {
-    if (!gweetContainerRef.current) return;
-
-    gweetContainerRef.current.scrollTop =
-      gweetContainerRef.current.scrollHeight;
-
-    console.log(gweetContainerRef.current.scrollHeight);
+      if (!isScrolledToBottom) {
+        return;
+      }
+      scrollInit();
+    }
   }, [gweets]);
 
   return (
