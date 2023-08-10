@@ -99,7 +99,13 @@ const FilePreviwCancelButton = styled.button`
   }
 `;
 
-export default function GweetForm({ userObj }: { userObj: User | null }) {
+export default function GweetForm({
+  userObj,
+  scrollInit,
+}: {
+  userObj: User | null;
+  scrollInit: () => void;
+}) {
   const [gweet, setGweet] = useState("");
   const [file, setFile] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
@@ -137,6 +143,7 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
 
     setIsLoading(false);
 
+    scrollInit();
     setGweet("");
     setFile("");
   };

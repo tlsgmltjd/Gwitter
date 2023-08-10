@@ -27,6 +27,11 @@ const GweetBox = styled.div`
   height: 100%;
   border-radius: 15px;
   position: relative;
+
+  @media screen and (max-width: 600px) {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
 `;
 
 const EditButtonBox = styled.div`
@@ -34,6 +39,10 @@ const EditButtonBox = styled.div`
   flex-direction: column;
   position: absolute;
   right: 15px;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: row;
+  }
 `;
 
 const GweetName = styled.h4`
@@ -41,6 +50,10 @@ const GweetName = styled.h4`
   margin-right: 15px;
   left: 15px;
   font-size: 13px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 10px;
+  }
 `;
 
 const GweetImg = styled.img`
@@ -69,12 +82,22 @@ const EditButton = styled.button`
     border: 1px solid #74b9ff;
     color: #74b9ff;
   }
+
+  @media screen and (max-width: 600px) {
+    padding: 2px 4px;
+    margin: 0px 2px;
+    font-size: 2px;
+  }
 `;
 
 const GweetText = styled.p`
   max-width: 50%;
   overflow: hidden;
   margin-left: 60px;
+
+  @media screen and (max-width: 600px) {
+    margin-left: 40px;
+  }
 `;
 
 export default function Gweet({ gweetObj, isOwner }: IGweetProp) {

@@ -33,12 +33,21 @@ const GweetsContainer = styled.div`
   }
   @media screen and (max-width: 600px) {
     width: 90%;
+    max-height: 300px;
   }
 `;
 
 const GweetsBox = styled.div`
   max-width: 550px;
   margin: 0 auto;
+`;
+
+const LastGweet = styled.span`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  opacity: 0.3;
 `;
 
 export default function Home({ userObj }: { userObj: User | null }) {
@@ -90,6 +99,7 @@ export default function Home({ userObj }: { userObj: User | null }) {
     <HomeContainer>
       <GweetsContainer ref={gweetContainerRef}>
         <GweetsBox>
+          <LastGweet>더 이상 없어요...</LastGweet>
           {gweets.map((gweet) => (
             <Gweet
               key={gweet.id}
@@ -99,7 +109,7 @@ export default function Home({ userObj }: { userObj: User | null }) {
           ))}
         </GweetsBox>
       </GweetsContainer>
-      <GweetForm userObj={userObj} />
+      <GweetForm userObj={userObj} scrollInit={scrollInit} />
     </HomeContainer>
   );
 }
