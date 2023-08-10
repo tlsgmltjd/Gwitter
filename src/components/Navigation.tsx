@@ -1,9 +1,14 @@
-import { User } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
 const NavigationContainer = styled.nav`
-  width: 100%;
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px 0 0 0;
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 `;
 
 const NavigationBox = styled.ul`
@@ -13,23 +18,14 @@ const NavigationBox = styled.ul`
   display: flex;
   justify-content: space-between;
   font-size: 20px;
-
-  @media screen and (max-width: 550px) {
-    font-size: 15px;
-  }
 `;
 
 const NavigationButton = styled.li`
-  border-left: 1px solid white;
   width: 100%;
   padding: 10px 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &:last-child {
-    border-right: 1px solid white;
-  }
 `;
 
 const NavigationText = styled.span`
@@ -37,18 +33,17 @@ const NavigationText = styled.span`
   height: 100%;
   transition: all 0.3s ease;
   color: white;
+  border: 1px solid white;
+  border-radius: 15px;
+  padding: 20px;
 
   &:hover {
-    color: #74b9ff;
+    background-color: #74b9ff;
     transition: all 0.3s ease;
   }
 `;
 
-const HighlightText = styled.span`
-  font-weight: 700;
-`;
-
-export default function Navigation({ userObj }: { userObj: User | null }) {
+export default function Navigation() {
   return (
     <NavigationContainer>
       <NavigationBox>
@@ -64,12 +59,7 @@ export default function Navigation({ userObj }: { userObj: User | null }) {
         </NavigationButton>
         <NavigationButton>
           <Link to="/profile">
-            <NavigationText>
-              <HighlightText>
-                {userObj?.displayName ?? userObj?.email?.split("@")[0]}
-              </HighlightText>
-              의 프로필
-            </NavigationText>
+            <NavigationText>😀</NavigationText>
           </Link>
         </NavigationButton>
       </NavigationBox>
