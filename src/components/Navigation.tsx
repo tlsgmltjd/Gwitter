@@ -8,7 +8,7 @@ const NavigationContainer = styled.nav`
 
 const NavigationBox = styled.ul`
   width: 100%;
-  padding: 0 10px 0 10px;
+  padding: 0 50px 0 50px;
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
@@ -54,12 +54,12 @@ export default function Navigation({ userObj }: { userObj: User | null }) {
       <NavigationBox>
         <NavigationButton>
           <Link to="/dm">
-            <NavigationText>개인 메시지</NavigationText>
+            <NavigationText>👥</NavigationText>
           </Link>
         </NavigationButton>
         <NavigationButton>
           <Link to="/">
-            <NavigationText>홈</NavigationText>
+            <NavigationText>🏠</NavigationText>
           </Link>
         </NavigationButton>
         <NavigationButton>

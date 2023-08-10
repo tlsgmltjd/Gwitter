@@ -19,6 +19,7 @@ const ProfileContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 50px;
 `;
 
 const EditNameInput = styled.input`
