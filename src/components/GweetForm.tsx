@@ -6,9 +6,15 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { User } from "firebase/auth";
 import { styled } from "styled-components";
 
+const GweetFormWrapper = styled.div`
+  padding: 5px 0;
+  background-color: #2d3436;
+  z-index: 1;
+`;
+
 const GweetFormContainer = styled.form`
   max-width: 300px;
-  margin: 40px auto 55px;
+  margin: 40px auto 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -166,35 +172,37 @@ export default function GweetForm({ userObj }: { userObj: User | null }) {
   };
 
   return (
-    <GweetFormContainer onSubmit={onSubmit}>
-      <InputGweet
-        value={gweet}
-        onChange={onChange}
-        type="text"
-        placeholder="어떤 생각을 하고 있나요?"
-        maxLength={120}
-        required
-      />
-      <InputFileLable>
-        + 사진 첨부하기
-        <InputFile
-          ref={fileInput}
-          type="file"
-          accept="image/*"
-          onChange={onFileChange}
+    <GweetFormWrapper>
+      <GweetFormContainer onSubmit={onSubmit}>
+        <InputGweet
+          value={gweet}
+          onChange={onChange}
+          type="text"
+          placeholder="어떤 생각을 하고 있나요?"
+          maxLength={120}
+          required
         />
-      </InputFileLable>
-      {file && (
-        <FilePreviwBox>
-          <FilePreviw src={file.toString()} />
-          <FilePreviwCancelButton onClick={onClearPhoto}>
-            지울래요
-          </FilePreviwCancelButton>
-        </FilePreviwBox>
-      )}
-      <GweetButton isLoading={isLoading} disabled={isLoading}>
-        Gweet
-      </GweetButton>
-    </GweetFormContainer>
+        <InputFileLable>
+          + 사진 첨부하기
+          <InputFile
+            ref={fileInput}
+            type="file"
+            accept="image/*"
+            onChange={onFileChange}
+          />
+        </InputFileLable>
+        {file && (
+          <FilePreviwBox>
+            <FilePreviw src={file.toString()} />
+            <FilePreviwCancelButton onClick={onClearPhoto}>
+              지울래요
+            </FilePreviwCancelButton>
+          </FilePreviwBox>
+        )}
+        <GweetButton isLoading={isLoading} disabled={isLoading}>
+          Gweet
+        </GweetButton>
+      </GweetFormContainer>
+    </GweetFormWrapper>
   );
 }

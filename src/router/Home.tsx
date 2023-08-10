@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { dbService } from "../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 import { User } from "firebase/auth";
@@ -16,10 +16,24 @@ export type SnapshotData = {
 const HomeContainer = styled.main`
   width: 100%;
   height: 100%;
+  margin-top: 50px;
 `;
 
 const GweetsContainer = styled.div`
-  width: 100%;
+  margin: 0 auto;
+  width: 50%;
+  max-height: 500px;
+  overflow: scroll;
+  border-radius: 15px;
+  padding: 30px;
+  background-color: #212728;
+
+  @media screen and (max-width: 1100px) {
+    width: 70%;
+  }
+  @media screen and (max-width: 600px) {
+    width: 90%;
+  }
 `;
 
 const GweetsBox = styled.div`
@@ -29,6 +43,7 @@ const GweetsBox = styled.div`
 
 export default function Home({ userObj }: { userObj: User | null }) {
   const [gweets, setGweets] = useState<SnapshotData[]>([]);
+  const gweetContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     onSnapshot(collection(dbService, "gweets"), (snapshot) => {
@@ -37,16 +52,33 @@ export default function Home({ userObj }: { userObj: User | null }) {
         ...doc.data(),
       }));
       const orderedGweets = gweetsArray.sort(
-        (a, b) => b.createAt! - a.createAt!
+        (a, b) => a.createAt! - b.createAt!
       );
       setGweets(orderedGweets);
     });
   }, []);
 
+  useEffect(() => {
+    if (!gweetContainerRef.current) return;
+
+    gweetContainerRef.current.scrollTop =
+      gweetContainerRef.current.scrollHeight;
+
+    console.log(gweetContainerRef.current.scrollHeight);
+  }, []);
+
+  useEffect(() => {
+    if (!gweetContainerRef.current) return;
+
+    gweetContainerRef.current.scrollTop =
+      gweetContainerRef.current.scrollHeight;
+
+    console.log(gweetContainerRef.current.scrollHeight);
+  }, [gweets]);
+
   return (
     <HomeContainer>
-      <GweetForm userObj={userObj} />
-      <GweetsContainer>
+      <GweetsContainer ref={gweetContainerRef}>
         <GweetsBox>
           {gweets.map((gweet) => (
             <Gweet
@@ -57,6 +89,7 @@ export default function Home({ userObj }: { userObj: User | null }) {
           ))}
         </GweetsBox>
       </GweetsContainer>
+      <GweetForm userObj={userObj} />
     </HomeContainer>
   );
 }

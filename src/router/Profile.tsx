@@ -158,7 +158,12 @@ export default function Profile({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(displayName);
+
+    /////////////////////////////////////////////
+    /////////////////////////////////////////////
+    /////////////////////////////////////////////
+    alert("현재 이름 변경이 제한됩니다!");
+    return;
 
     if (!displayName?.length) return;
     if (!/^[^\s]+$/.test(displayName))
