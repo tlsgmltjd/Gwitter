@@ -99,7 +99,17 @@ export default function Home({ userObj }: { userObj: User | null }) {
     <HomeContainer>
       <GweetsContainer ref={gweetContainerRef}>
         <GweetsBox>
-          <LastGweet>더 이상 없어요...</LastGweet>
+          <LastGweet>
+            {gweets.length === 0 ? (
+              <>
+                <span>잠시만 기다려 주세요!</span>
+              </>
+            ) : (
+              <>
+                <span>더 이상 없어요...</span>
+              </>
+            )}
+          </LastGweet>
           {gweets.map((gweet) => (
             <Gweet
               key={gweet.id}

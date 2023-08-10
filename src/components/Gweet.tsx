@@ -34,6 +34,22 @@ const GweetBox = styled.div`
   }
 `;
 
+const GweetFileBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 15px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  font-size: 10px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+`;
+
 const EditButtonBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,8 +73,8 @@ const GweetName = styled.h4`
 `;
 
 const GweetImg = styled.img`
-  max-width: 100px;
-  max-height: 70px;
+  max-width: 300px;
+  max-height: 200px;
   border-radius: 15px;
   border: 1px solid white;
 `;
@@ -68,6 +84,7 @@ const GweetContainer = styled.div`
   align-items: center;
   gap: 15px;
   margin: 15px;
+  position: relative;
 `;
 
 const EditButton = styled.button`
@@ -97,6 +114,49 @@ const GweetText = styled.p`
 
   @media screen and (max-width: 600px) {
     margin-left: 40px;
+  }
+`;
+
+const GweetTextMini = styled.p`
+  max-width: 50%;
+  overflow: hidden;
+  font-size: 5px;
+  opacity: 0.3;
+`;
+
+const GweetImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const GweetEditForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 5px;
+`;
+
+const GweetEditInput = styled.input`
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid white;
+  outline: none;
+`;
+
+const GwettEditButton = styled.button`
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid white;
+
+  &:hover {
+    color: #74b9ff;
   }
 `;
 
@@ -135,40 +195,84 @@ export default function Gweet({ gweetObj, isOwner }: IGweetProp) {
 
   return (
     <GweetContainer>
-      <GweetBox>
-        {editing ? (
-          <>
-            {isOwner && (
-              <>
-                <form onSubmit={onSubmit}>
-                  <input
-                    type="text"
-                    placeholder="Gweet을 수정해보세요"
-                    value={newGweet}
-                    onChange={onChange}
-                    required
-                  />
-                  <button>확인</button>
-                </form>
-                <button onClick={toggleEditing}>취소</button>
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            <GweetName>{gweetObj.userName ?? "???"}</GweetName>
-            <GweetText>{gweetObj.gweet}</GweetText>
+      {!gweetObj.fileUrl ? (
+        <GweetBox>
+          {editing ? (
+            <>
+              {isOwner && (
+                <>
+                  <GweetEditForm onSubmit={onSubmit}>
+                    <GweetEditInput
+                      type="text"
+                      placeholder="Gweet을 수정해보세요"
+                      value={newGweet}
+                      onChange={onChange}
+                      required
+                    />
+                    <GwettEditButton>확인</GwettEditButton>
+                    <GwettEditButton onClick={toggleEditing}>
+                      취소
+                    </GwettEditButton>
+                  </GweetEditForm>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <GweetName>{gweetObj.userName ?? "???"}</GweetName>
+              <GweetText>{gweetObj.gweet}</GweetText>
 
-            {isOwner && (
-              <EditButtonBox>
-                <EditButton onClick={onDeleteClick}>❌</EditButton>
-                <EditButton onClick={toggleEditing}>✏️</EditButton>
-              </EditButtonBox>
-            )}
-          </>
-        )}
-      </GweetBox>
-      {gweetObj.fileUrl && <GweetImg src={gweetObj.fileUrl} />}
+              {isOwner && (
+                <EditButtonBox>
+                  <EditButton onClick={onDeleteClick}>❌</EditButton>
+                  <EditButton onClick={toggleEditing}>✏️</EditButton>
+                </EditButtonBox>
+              )}
+            </>
+          )}
+        </GweetBox>
+      ) : (
+        <GweetFileBox>
+          {editing ? (
+            <>
+              {isOwner && (
+                <>
+                  <GweetEditForm onSubmit={onSubmit}>
+                    <GweetEditInput
+                      type="text"
+                      placeholder="Gweet을 수정해보세요"
+                      value={newGweet}
+                      onChange={onChange}
+                      required
+                    />
+                    <GwettEditButton>확인</GwettEditButton>
+                    <GwettEditButton onClick={toggleEditing}>
+                      취소
+                    </GwettEditButton>
+                  </GweetEditForm>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <GweetName>{gweetObj.userName ?? "???"}</GweetName>
+
+              {isOwner && (
+                <EditButtonBox>
+                  <EditButton onClick={onDeleteClick}>❌</EditButton>
+                  <EditButton onClick={toggleEditing}>✏️</EditButton>
+                </EditButtonBox>
+              )}
+            </>
+          )}
+        </GweetFileBox>
+      )}
+      {gweetObj.fileUrl && (
+        <GweetImgContainer>
+          <GweetImg src={gweetObj.fileUrl} />
+          <GweetTextMini>{gweetObj.gweet}</GweetTextMini>
+        </GweetImgContainer>
+      )}
     </GweetContainer>
   );
 }
