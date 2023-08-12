@@ -28,6 +28,10 @@ const GweetsContainer = styled.div`
   padding: 30px;
   background-color: #212728;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   @media screen and (max-width: 1100px) {
     width: 70%;
   }

@@ -151,7 +151,7 @@ const GweetEditInput = styled.input`
 const GwettEditButton = styled.button`
   background-color: rgba(0, 0, 0, 0);
   color: white;
-  padding: 5px;
+  padding: 10px;
   border-radius: 8px;
   border: 1px solid white;
 
