@@ -101,7 +101,7 @@ const EditButton = styled.button`
   }
 
   @media screen and (max-width: 600px) {
-    padding: 2px 4px;
+    padding: 6px 8px;
     margin: 0px 2px;
     font-size: 2px;
   }
