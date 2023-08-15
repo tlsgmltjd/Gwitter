@@ -17,7 +17,7 @@ export default function Dm() {
   return (
     <>
       <Container>
-        <TestText>현재 Dm 기능은 개발 중입니다! ⚒️</TestText>
+        <TestText>DM ⚒️</TestText>
       </Container>
     </>
   );
